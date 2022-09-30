@@ -17,7 +17,7 @@ macro_rules! write_bin {
 impl WriteContext<Instr> for WASMBinary {
     fn write<W: io::Write>(w: &mut W, instr: &Instr) -> io::Result<()> {
         match instr {
-            // Control Instructions ---------------------------------------
+            // Control Instructions ------------------------------
             Instr::Unreachable => write_bin!(w << 0x00u8),
             Instr::Nop => write_bin!(w << 0x01u8),
             Instr::Block(bt, instrs) => {
@@ -83,7 +83,7 @@ impl WriteContext<Instr> for WASMBinary {
             Instr::TableSize(x) => write_bin!(w << 0xFCu8 << 16u32 << x),
             Instr::TableFill(x) => write_bin!(w << 0xFCu8 << 17u32 << x),
 
-            // Memory Instructions
+            // Memory Instructions -------------------------------
             Instr::I32Load(m) => write_bin!(w << 0x28u8 << m),
             Instr::I64Load(m) => write_bin!(w << 0x29u8 << m),
             Instr::F32Load(m) => write_bin!(w << 0x2Au8 << m),
@@ -114,7 +114,7 @@ impl WriteContext<Instr> for WASMBinary {
             Instr::MemoryCopy => write_bin!(w << 0xFCu8 << 10u32 << 0x00u8 << 0x00u8),
             Instr::MemoryFill => write_bin!(w << 0xFCu8 << 11u32 << 0x00u8),
 
-            // Numeric Instructions
+            // Numeric Instructions ------------------------------
             Instr::I32Const(n) => write_bin!(w << 0x41u8 << n),
             Instr::I64Const(n) => write_bin!(w << 0x42u8 << n),
             Instr::F32Const(z) => write_bin!(w << 0x43u8 << z),
